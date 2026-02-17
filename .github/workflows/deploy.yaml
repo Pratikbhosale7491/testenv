@@ -35,7 +35,7 @@ jobs:
             npm install --production
 
             echo "Restarting service..."
-            pm2 restart admin-service || pm2 start server.js --name admin-service
+            pm2 restart admin-service || pm2 start server.js --name testnev
 
             pm2 save
 
