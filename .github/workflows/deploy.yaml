@@ -1,0 +1,43 @@
+name: Deploy Admin Service
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script: |
+            set -e
+
+            echo "Connected to server"
+
+            cd /home/ubuntu/apps/testenv
+
+            echo "Pulling latest code..."
+            git fetch origin main
+            git reset --hard origin/main
+
+            echo "Installing dependencies..."
+            npm install --production
+
+            echo "Restarting service..."
+            pm2 restart admin-service || pm2 start server.js --name admin-service
+
+            pm2 save
+
+            echo "Deployment completed!"
+            
