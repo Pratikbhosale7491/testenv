@@ -2,13 +2,7 @@
   "service": "testenv",
   "version": "1.0.0",
   "compatible_with": {
-    "admin": {
-      "min_version": "1.0.0",
-      "url": "http://localhost:4000"
-    },
-    "dashboard": {
-      "min_version": "1.0.0",
-      "url": "http://localhost:4500"
-    }
+    "admin": ">=1.0.0",
+    "dashboard": ">=1.0.0"
   }
 }
